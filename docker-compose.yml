@@ -1,0 +1,28 @@
+# version: '3'
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+  api:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - PORT=3000
+      - CACHE_TTL=3600
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+volumes:
+  redis-data:
