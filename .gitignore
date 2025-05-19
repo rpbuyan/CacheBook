@@ -1,0 +1,4 @@
+# Sensitive documents
+.env
+node_modules
+package-lock.json
